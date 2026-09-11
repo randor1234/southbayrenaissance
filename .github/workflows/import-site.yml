@@ -1,0 +1,25 @@
+name: Import live site
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch the live files from southbayrenaissance.com
+        run: |
+          set -e
+          for f in index.html banner.html thanks.html og-image.jpg sbr-badge-firstgathering.png sbr-overlay-square.png sbr-overlay-story.png sbr-sticker-dark.png sbr-sticker-light.png; do
+            curl -fsSL "https://southbayrenaissance.com/$f" -o "$f"
+          done
+          printf '[build]\n  publish = "/"\n' > netlify.toml
+          ls -la
+      - name: Commit and push
+        run: |
+          git config user.name "sbr-import"
+          git config user.email "sbr-import@users.noreply.github.com"
+          git add -A
+          git commit -m "Import live site files from the current Netlify deploy" || echo "nothing to commit"
+          git push
