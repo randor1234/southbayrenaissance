@@ -107,15 +107,39 @@ a{color:inherit}
 
 /* ---------- hero ---------- */
 .hero{position:relative; overflow:hidden; background:var(--cream); border-bottom:1px solid var(--line)}
-.hero-in{position:relative; z-index:2; display:grid; grid-template-columns:1.25fr .75fr; gap:48px; align-items:center; padding:76px 0 84px}
+.hero-in{
+  position:relative; z-index:2; display:grid; grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr); grid-template-rows:auto auto 1fr;
+  grid-template-areas:"eyebrow eyebrow" "h1 photo" "rest photo"; gap:0 48px; align-items:center; padding:76px 24px 84px;
+}
+.hero-in > .eyebrow{grid-area:eyebrow}
+.hero-h1{grid-area:h1; align-self:end}
+.hero-rest{grid-area:rest; align-self:start}
+.herophoto{grid-area:photo; align-self:center}
 .hero .eyebrow{color:var(--orange); letter-spacing:.13em; line-height:1.9}
-.hero-in > .eyebrow{grid-column:1 / -1; margin:0 0 4px}
-.hero h1{font-size:clamp(3rem, 8.6vw, 6.6rem); margin:0; letter-spacing:-.005em}
+.hero-in > .eyebrow{margin:0 0 22px}
+.hero h1{font-size:clamp(3rem, 7vw, 5.5rem); margin:0; letter-spacing:-.005em}
 .hero h1 .l2{display:block; color:var(--orange)}
 .hero-sub{margin-top:24px; max-width:54ch; font-size:1.12rem; color:var(--ink-2)}
 .hero-cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:32px}
-.sunart{width:100%; height:auto; display:block}
-@media (max-width:900px){ .hero-in{grid-template-columns:1fr; gap:30px; padding:56px 0 64px} .sunart{max-width:340px} }
+.herophoto{margin:0; position:relative}
+.herophoto a{display:block; text-decoration:none}
+.herophoto img{
+  width:100%; height:auto; display:block; background:var(--cream-2);
+  border:1px solid var(--line); box-shadow:var(--shadow);
+  border-bottom:6px solid var(--orange);
+  transition:transform .25s ease;
+}
+.herophoto a:hover img{transform:translateY(-2px)}
+.herophoto figcaption{
+  margin-top:12px; font-size:.86rem; color:var(--ink-2); display:flex; flex-wrap:wrap; align-items:baseline; gap:10px;
+}
+.herophoto figcaption a{color:var(--orange); text-decoration:none; font-weight:600}
+.herophoto figcaption a:hover{text-decoration:underline}
+.hp-tag{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--orange)}
+@media (max-width:900px){
+  .hero-in{grid-template-columns:1fr; grid-template-rows:auto; grid-template-areas:"eyebrow" "h1" "photo" "rest"; gap:0; padding:56px 24px 64px}
+  .herophoto{margin-top:28px}
+}
 
 /* ---------- section frame ---------- */
 section{padding:88px 0}
@@ -208,16 +232,68 @@ section{padding:88px 0}
 .value{padding:24px 0; border-top:1px solid var(--band-line)}
 .value h3{font-size:1.02rem; color:var(--band-ink); margin-bottom:7px}
 .value p{font-size:.93rem; color:var(--band-ink-2)}
-.photos{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:52px}
-@media (max-width:820px){ .photos{grid-template-columns:repeat(2,1fr)} }
-.ph{
-  aspect-ratio:4/3; border:1px dashed var(--band-line); display:flex; align-items:center; justify-content:center;
-  text-align:center; padding:16px; color:var(--band-ink-2); font-family:"IBM Plex Mono",monospace;
-  font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; line-height:1.7;
-  background:repeating-linear-gradient(135deg, transparent, transparent 9px, color-mix(in srgb, var(--band-ink) 4%, transparent) 9px, color-mix(in srgb, var(--band-ink) 4%, transparent) 18px);
-}
-.photos-note{margin-top:18px; font-size:.92rem; color:var(--band-ink-2)}
+.photos-note{margin-top:44px; padding-top:22px; border-top:1px solid var(--band-line); font-size:.95rem; color:var(--band-ink-2); max-width:70ch}
 .photos-note strong{color:var(--amber); font-weight:600}
+.photos-note a{color:var(--band-ink); text-decoration:underline; text-underline-offset:3px}
+.photos-note a:hover{color:var(--amber)}
+
+/* ---------- photos ---------- */
+.gal{display:flex; flex-direction:column; gap:56px}
+.gal-group{display:flex; flex-direction:column}
+.gal-head{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px;
+  border-top:2px solid var(--ink); padding-top:16px; margin-bottom:18px;
+}
+.gal-head h3{font-size:1.28rem; letter-spacing:.01em}
+.gal-head .when{font-family:"IBM Plex Mono",monospace; font-size:.71rem; letter-spacing:.16em; text-transform:uppercase; color:var(--orange)}
+.gal-head .cnt{font-family:"IBM Plex Mono",monospace; font-size:.71rem; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-2); margin-left:auto}
+.gal-head .cnt a{color:inherit; text-decoration:none}
+.gal-head .cnt a:hover{color:var(--ink)}
+.gal-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; grid-auto-flow:dense}
+@media (max-width:820px){ .gal-grid{grid-template-columns:repeat(2,1fr)} }
+.gal-item{
+  margin:0; padding:0; border:0; background:var(--cream-2); position:relative; overflow:hidden;
+  aspect-ratio:4/3; cursor:zoom-in; display:block; width:100%; font:inherit; color:inherit; text-align:left;
+}
+.gal-item.lead{grid-column:span 2; grid-row:span 2}
+.gal-item img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .35s ease}
+.gal-item:hover img{transform:scale(1.03)}
+.gal-item:focus-visible{outline:3px solid var(--orange); outline-offset:3px}
+.gal-item figcaption{
+  position:absolute; left:0; right:0; bottom:0; padding:28px 12px 10px; font-size:.82rem; line-height:1.35; color:#FBF1DD;
+  background:linear-gradient(to top, rgba(27,26,24,.78), rgba(27,26,24,0)); opacity:0; transition:opacity .2s ease; pointer-events:none;
+}
+.gal-item:hover figcaption, .gal-item:focus-visible figcaption{opacity:1}
+.gal-item.hidden{display:none}
+.gal-more{margin-top:12px; align-self:flex-start}
+.gal-empty{
+  border:1px dashed var(--line); padding:44px 24px; text-align:center; color:var(--ink-2);
+  font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.12em; text-transform:uppercase; line-height:1.8;
+  background:repeating-linear-gradient(135deg, transparent, transparent 9px, color-mix(in srgb, var(--ink) 3%, transparent) 9px, color-mix(in srgb, var(--ink) 3%, transparent) 18px);
+}
+.gal-foot{margin-top:34px; display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between}
+.gal-foot p{font-size:.94rem; color:var(--ink-2); max-width:62ch}
+.gal-foot strong{color:var(--orange); font-weight:600}
+@media (prefers-reduced-motion: reduce){ .gal-item img, .herophoto img{transition:none} .gal-item:hover img{transform:none} }
+
+/* ---------- lightbox ---------- */
+.lightbox{
+  border:0; padding:0; background:transparent; max-width:min(96vw, 1400px); max-height:96vh; width:auto; color:var(--band-ink);
+}
+.lightbox::backdrop{background:rgba(14,12,9,.92)}
+.lb-in{display:flex; flex-direction:column; gap:12px; align-items:center}
+.lb-in img{max-width:96vw; max-height:84vh; width:auto; height:auto; display:block; background:#000}
+.lb-cap{display:flex; flex-wrap:wrap; gap:8px 18px; align-items:baseline; justify-content:center; color:#FBF1DD; font-size:.92rem; text-align:center}
+.lb-cap .when{font-family:"IBM Plex Mono",monospace; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:var(--amber)}
+.lb-btn{
+  position:fixed; top:14px; width:46px; height:46px; border:1px solid rgba(251,241,221,.35); background:rgba(27,26,24,.6); color:#FBF1DD;
+  font-size:1.5rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; border-radius:0;
+}
+.lb-btn:hover{background:var(--orange); border-color:var(--orange)}
+.lb-close{right:14px}
+.lb-prev, .lb-next{top:50%; transform:translateY(-50%)}
+.lb-prev{left:14px} .lb-next{right:14px}
+@media (max-width:640px){ .lb-prev, .lb-next{top:auto; bottom:14px; transform:none} }
 
 /* ---------- get involved ---------- */
 .ways{display:grid; grid-template-columns:repeat(2,1fr); gap:18px}
@@ -379,10 +455,11 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
     <div class="nav-links">
       <a class="hide-sm" href="#mission">Mission</a>
       <a class="hide-sm" href="#events">Events</a>
+      <a class="hide-sm" href="#photos">Photos</a>
       <a class="hide-sm" href="#submit">Submit an event</a>
       <a class="hide-sm" href="#about">About us</a>
       <a class="hide-sm" href="https://join.tribechat.com/ro2rImXwS5" target="_blank" rel="noopener">Group chat</a>
-      <a class="nav-cta" href="https://luma.com/tribechat-k8os" target="_blank" rel="noopener">RSVP</a>
+      <a class="nav-cta" href="#events">RSVP</a>
     </div>
   </div>
 </nav>
@@ -390,8 +467,8 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
 <header class="hero" id="top">
   <div class="wrap hero-in">
     <p class="eyebrow">San&nbsp;Mateo &middot; Redwood&nbsp;City &middot; Menlo&nbsp;Park &middot; Palo&nbsp;Alto &middot; Los&nbsp;Altos &middot; Mountain&nbsp;View &middot; Sunnyvale &middot; Cupertino &middot; Santa&nbsp;Clara &middot; San&nbsp;Jose</p>
-    <div>
-      <h1>It's time for a<span class="l2">South Bay Renaissance</span></h1>
+    <h1 class="hero-h1">It's time for a<span class="l2">South Bay Renaissance</span></h1>
+    <div class="hero-rest">
       <p class="hero-sub">The best weather in the world, the deepest bench of talent anywhere, safe and family friendly. And a startup scene that drifted to San Francisco and left this place bare. We are building it back, one gathering at a time.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#events">See what's coming up</a>
@@ -408,26 +485,12 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
         </div>
       </form>
     </div>
-    <svg class="sunart" viewBox="0 0 360 320" role="img" aria-label="A sun rising over the South Bay skyline with a rising line of connected points">
-      <circle cx="180" cy="150" r="106" fill="var(--amber)"/>
-      <path d="M74 150a106 106 0 0 0 212 0Z" fill="var(--orange-2)"/>
-      <g fill="var(--ink)">
-        <rect x="96" y="120" width="26" height="130"/>
-        <path d="M96 120h26l-13-22Z"/>
-        <rect x="240" y="164" width="34" height="86"/>
-        <rect x="200" y="196" width="28" height="54"/>
-        <rect x="140" y="208" width="46" height="42"/>
-        <path d="M138 208h50l-25-16Z"/>
-        <path d="M300 250c0-26 8-44 14-56-14 8-26 22-26 40Z"/>
-        <path d="M300 250c0-26-8-44-14-56 14 8 26 22 26 40Z"/>
-        <rect x="298" y="222" width="5" height="28"/>
-      </g>
-      <rect x="40" y="250" width="290" height="3" fill="var(--ink)"/>
-      <path d="M40 296C96 296 120 268 164 258s72 8 116-24 44-40 40-52" fill="none" stroke="var(--orange)" stroke-width="5" stroke-linecap="round"/>
-      <g fill="var(--amber)" stroke="var(--cream)" stroke-width="3">
-        <circle cx="72" cy="296" r="9"/><circle cx="164" cy="258" r="9"/><circle cx="248" cy="256" r="9"/><circle cx="316" cy="196" r="9"/>
-      </g>
-    </svg>
+    <figure class="herophoto">
+      <a href="#photos" aria-label="See photos from South Bay Renaissance gatherings">
+        <img src="photos/2026-08-28-first-gathering-01.jpg" alt="A packed room of South Bay Renaissance attendees smiling around the SBR banner at the first gathering" width="1200" height="900" fetchpriority="high" decoding="async">
+      </a>
+      <figcaption><span class="hp-tag">#SouthBayRenaissance</span> The first gathering, Sunnyvale, Aug 28. <a href="#photos">More photos</a></figcaption>
+    </figure>
   </div>
 </header>
 
@@ -512,8 +575,53 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
         <a class="btn btn-primary" href="https://luma.com/054l23aa" target="_blank" rel="noopener">RSVP</a>
       </div>
 
+      <div class="ev open">
+        <div class="dchip">
+          <span class="mo">Sep</span>
+          <span class="dy">30</span>
+          <span class="wd">Wed</span>
+        </div>
+        <div>
+          <span class="badge live">Apply on Luma</span>
+          <h3>AI Infra Dinner: Builders Behind the Next AI Stack</h3>
+          <p class="meta">5:30 to 7:30 pm &middot; Palo Alto &middot; Free &middot; 12 to 15 seats, applications reviewed</p>
+          <p class="desc">Some of the most consequential work in AI is happening underneath the applications. One small table of founders, engineers and researchers building across the AI infrastructure stack: inference, chips, agent infrastructure, foundation models, reinforcement learning. No panels, no pitches. Hosted by Prateek Joshi, in partnership with South Bay Renaissance and Pupa Ventures.</p>
+        </div>
+        <a class="btn btn-primary" href="https://luma.com/tribechat-z9ea" target="_blank" rel="noopener">Request a seat</a>
+      </div>
+
+      <div class="ev open">
+        <div class="dchip">
+          <span class="mo">Oct</span>
+          <span class="dy">2</span>
+          <span class="wd">Fri</span>
+        </div>
+        <div>
+          <span class="badge live">RSVP on Luma</span>
+          <h3>Circuit Launch Happy Hour</h3>
+          <p class="meta">5:00 to 7:30 pm &middot; Circuit Launch, Mountain View &middot; $25 &middot; Approval required</p>
+          <p class="desc">South Bay Renaissance comes to Circuit Launch, the robotics, hardware and deep tech hub off Fairchild Drive. A quick introduction to the community they have built there, then an easy evening of drinks and conversation with founders, engineers, builders and investors who live closer to home. No panel, no formal programming. Hosted by Raza Rafiq and South Bay Renaissance.</p>
+        </div>
+        <a class="btn btn-primary" href="https://luma.com/tribechat-dejz" target="_blank" rel="noopener">RSVP</a>
+      </div>
+
+      <div class="ev open">
+        <div class="dchip">
+          <span class="mo">Oct</span>
+          <span class="dy">5</span>
+          <span class="wd">Mon</span>
+        </div>
+        <div>
+          <span class="badge live">RSVP on Luma</span>
+          <h3>The Physical AI Frontier: From Software to the Real World</h3>
+          <p class="meta">4:00 to 6:30 pm &middot; Downtown Palo Alto &middot; $35 &middot; Approval required</p>
+          <p class="desc">AI is moving beyond screens and software and into the physical world. An intimate conversation on where the real opportunities in Physical AI are emerging, what makes building in robotics, manufacturing, infrastructure and deep tech fundamentally different, and what the next wave of companies could look like. Hosted by Sarvesh Karkhanis at Pupa Ventures, with South Bay Renaissance. Speaker details coming shortly.</p>
+        </div>
+        <a class="btn btn-primary" href="https://luma.com/tribechat-kh3p" target="_blank" rel="noopener">RSVP</a>
+      </div>
+
       <div class="ev">
-        <div class="dchip tba"><span class="mo">Sep</span><span class="dy">TBA</span></div>
+        <div class="dchip tba"><span class="mo">Oct</span><span class="dy">TBA</span></div>
         <div>
           <span class="badge">Host wanted</span>
           <h3>Founders' dinner</h3>
@@ -596,11 +704,52 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
         <a class="btn btn-outline" href="https://luma.com/tribechat-k8os" target="_blank" rel="noopener">See the event</a>
       </div>
 
+      <div class="ev done">
+        <div class="dchip">
+          <span class="mo">Aug</span>
+          <span class="dy">19</span>
+          <span class="wd">Wed</span>
+        </div>
+        <div>
+          <span class="badge">Happened</span>
+          <h3>Excellence in Tech: The Future of Consumer AI, with Karandeep Anand</h3>
+          <p class="meta">6:00 to 8:30 pm &middot; Redwood City &middot; Room capped at 50</p>
+          <p class="desc">A fireside conversation between Karandeep Anand, CEO of Character.AI, and Rajat Suri on where consumer AI goes next, followed by lightning talks and networking. Presented by Excellence in Tech.</p>
+        </div>
+        <a class="btn btn-outline" href="https://luma.com/lvflmt3d" target="_blank" rel="noopener">See the event</a>
       </div>
-      <p class="sub-note">Photos are going up as they come in. If you shot anything, post it tagged <strong>#SouthBayRenaissance</strong> and grab an <a href='/banner'>overlay or sticker</a> for it.</p>
+
+      </div>
+      <p class="sub-note">Photos from these are <a href="#photos">in the photos section</a>. If you shot anything, post it tagged <strong>#SouthBayRenaissance</strong> and grab an <a href='/banner'>overlay or sticker</a> for it.</p>
     </div>
   </div>
 </section>
+
+<section id="photos">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow">Photos</p>
+      <h2>How it looked in the room</h2>
+      <p class="lede">Every gathering that carries the name lands here, newest first. Click any photo to see it large.</p>
+    </div>
+    <div class="gal" id="gal">
+      <noscript><p class="gal-empty">Turn on JavaScript to see the photos.</p></noscript>
+    </div>
+    <div class="gal-foot">
+      <p>Shot something at one of these? Post it tagged <strong>#SouthBayRenaissance</strong>, or send it to the team and it goes up here. Grab an <a href='/banner'>overlay or sticker</a> for your post.</p>
+      <button type="button" class="btn btn-outline" data-intent="Something else" data-community="Photos">Send us photos</button>
+    </div>
+  </div>
+</section>
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <div class="lb-in">
+    <img id="lb-img" alt="">
+    <p class="lb-cap"><span class="when" id="lb-when"></span><span id="lb-text"></span></p>
+  </div>
+  <button type="button" class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo">&lsaquo;</button>
+  <button type="button" class="lb-btn lb-next" id="lb-next" aria-label="Next photo">&rsaquo;</button>
+  <button type="button" class="lb-btn lb-close" id="lb-close" aria-label="Close">&times;</button>
+</dialog>
 
 <section class="chatband" id="chat">
   <div class="wrap chatband-in">
@@ -764,13 +913,7 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
         <p>Harassment or repeated bad behavior gets someone removed from the ecosystem, and hosts hear about it.</p>
       </div>
     </div>
-    <div class="photos">
-      <div class="ph">First gathering<br>Aug 28</div>
-      <div class="ph">Founders' dinner</div>
-      <div class="ph">AI deep dive</div>
-      <div class="ph">Playdate in the park</div>
-    </div>
-    <p class="photos-note">Photos from every gathering land here. Post yours and tag <strong>#SouthBayRenaissance</strong> so the next host can see how it went.</p>
+    <p class="photos-note">Photos from every gathering are <a href="#photos">in the photos section</a>. Post yours and tag <strong>#SouthBayRenaissance</strong> so the next host can see how it went.</p>
   </div>
 </section>
 
@@ -861,6 +1004,7 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
     <div class="links">
       <a href="#mission">Mission</a>
       <a href="#events">Events</a>
+      <a href="#photos">Photos</a>
       <a href="#submit">Submit an event</a>
       <a href="#about">About us</a>
       <a href="https://join.tribechat.com/ro2rImXwS5" target="_blank" rel="noopener">Group chat</a>
@@ -897,6 +1041,92 @@ a:focus-visible, .way:focus-visible{outline:3px solid var(--orange); outline-off
       setTimeout(function(){ if(target) target.focus({preventScroll:true}); }, reduce ? 0 : 500);
     });
   });
+})();
+</script>
+<script src="/photos/photos.js"></script>
+<script>
+(function(){
+  var gal = document.getElementById('gal');
+  if(!gal) return;
+  var groups = Array.isArray(window.SBR_PHOTOS) ? window.SBR_PHOTOS.filter(function(g){ return g && g.photos && g.photos.length; }) : [];
+  var INITIAL = 6;
+  var flat = []; // every photo, in display order, for the lightbox
+
+  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+
+  if(!groups.length){
+    gal.appendChild(el('p', 'gal-empty', 'Photos from every gathering land here. The first batch is on its way.'));
+    return;
+  }
+
+  groups.forEach(function(g){
+    var group = el('div', 'gal-group');
+    var head = el('div', 'gal-head');
+    head.appendChild(el('span', 'when', g.date + (g.where ? ' · ' + g.where : '')));
+    head.appendChild(el('h3', null, g.event));
+    var cnt = el('span', 'cnt');
+    if(g.link){ var a = el('a', null, g.photos.length + (g.photos.length === 1 ? ' photo' : ' photos') + ' · event page'); a.href = g.link; a.target = '_blank'; a.rel = 'noopener'; cnt.appendChild(a); }
+    else cnt.textContent = g.photos.length + (g.photos.length === 1 ? ' photo' : ' photos');
+    head.appendChild(cnt);
+    group.appendChild(head);
+
+    var grid = el('div', 'gal-grid');
+    g.photos.forEach(function(p, i){
+      var idx = flat.length;
+      flat.push({p: p, g: g});
+      var fig = el('button', 'gal-item' + (i === 0 ? ' lead' : '') + (i >= INITIAL ? ' hidden' : ''));
+      fig.type = 'button';
+      fig.setAttribute('aria-label', (p.caption || g.event) + ', open larger');
+      var img = el('img');
+      img.src = 'photos/thumbs/' + p.file;
+      img.onerror = function(){ this.onerror = null; this.src = 'photos/' + p.file; };
+      img.alt = p.caption ? p.caption + ' at ' + g.event : g.event;
+      img.loading = 'lazy'; img.decoding = 'async';
+      if(p.w && p.h){ img.width = p.w; img.height = p.h; }
+      fig.appendChild(img);
+      if(p.caption){ var cap = el('figcaption', null, p.caption); fig.appendChild(cap); }
+      fig.addEventListener('click', function(){ open(idx); });
+      grid.appendChild(fig);
+    });
+    group.appendChild(grid);
+
+    if(g.photos.length > INITIAL){
+      var more = el('button', 'btn btn-outline gal-more', 'Show all ' + g.photos.length + ' photos');
+      more.type = 'button';
+      more.addEventListener('click', function(){
+        grid.querySelectorAll('.gal-item.hidden').forEach(function(n){ n.classList.remove('hidden'); });
+        more.remove();
+      });
+      group.appendChild(more);
+    }
+    gal.appendChild(group);
+  });
+
+  // lightbox
+  var dlg = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img');
+  var lbWhen = document.getElementById('lb-when'), lbText = document.getElementById('lb-text');
+  var cur = 0;
+  function show(i){
+    cur = (i + flat.length) % flat.length;
+    var it = flat[cur];
+    lbImg.src = 'photos/' + it.p.file;
+    lbImg.alt = it.p.caption ? it.p.caption + ' at ' + it.g.event : it.g.event;
+    lbWhen.textContent = it.g.date + ' · ' + it.g.event;
+    lbText.textContent = it.p.caption || '';
+    var nxt = flat[(cur + 1) % flat.length]; if(nxt){ var pre = new Image(); pre.src = 'photos/' + nxt.p.file; }
+  }
+  function open(i){
+    if(!dlg || typeof dlg.showModal !== 'function'){ window.open('photos/' + flat[i].p.file, '_blank'); return; }
+    show(i); dlg.showModal();
+  }
+  if(dlg){
+    document.getElementById('lb-close').addEventListener('click', function(){ dlg.close(); });
+    document.getElementById('lb-prev').addEventListener('click', function(e){ e.stopPropagation(); show(cur - 1); });
+    document.getElementById('lb-next').addEventListener('click', function(e){ e.stopPropagation(); show(cur + 1); });
+    dlg.addEventListener('click', function(e){ if(e.target === dlg) dlg.close(); });
+    dlg.addEventListener('keydown', function(e){ if(e.key === 'ArrowRight') show(cur + 1); else if(e.key === 'ArrowLeft') show(cur - 1); });
+    dlg.addEventListener('close', function(){ lbImg.src = ''; });
+  }
 })();
 </script>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
